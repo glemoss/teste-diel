@@ -3,8 +3,13 @@ import React, { useState } from "react";
 import { useTaskList } from "../hooks";
 import { Task } from "../@types";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+
 export default function Home() {
-  const { tasks, addTask, deleteTask } = useTaskList();
+  const { tasks, addTask, deleteTask, updateTask } = useTaskList();
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+
   const [task, setTask] = useState<Omit<Task, "id">>({
     title: "",
     description: "",
@@ -47,7 +52,7 @@ export default function Home() {
       isValid = false;
     }
     if (!task.datetime) {
-      errors.datetime = "Datetime is a required field";
+      errors.datetime = "Date is a required field";
       isValid = false;
     }
     if (!task.duration) {
@@ -65,6 +70,18 @@ export default function Home() {
       datetime: "",
       duration: "",
     });
+  };
+
+  const startEditingTask = (task: Task) => {
+    setEditingTask(task);
+  };
+
+  const handleUpdateTask = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Previne o comportamento padrão do formulário
+    if (editingTask) {
+      updateTask(editingTask);
+      setEditingTask(null); // Limpa o estado de edição após a atualização
+    }
   };
 
   return (
@@ -119,7 +136,7 @@ export default function Home() {
                 htmlFor="datetime"
                 className="leading-7 text-sm text-gray-600"
               >
-                Datetime
+                Data
               </label>
               <input
                 onChange={onChange}
@@ -167,16 +184,71 @@ export default function Home() {
             Tasks
           </h2>
           {tasks.map((task) => (
-            <div key={task.id} className="border-b border-gray-300 mb-4 pb-4">
-              <p className="text-lg font-medium">{task.title}</p>
-              <p className="text-sm text-gray-500 mb-2">{task.description}</p>
-              <p className="text-xs text-gray-400 mb-2">{task.datetime}</p>
-              <button
-                onClick={() => deleteTask(task.id)}
-                className="text-red-500 text-xs focus:outline-none"
-              >
-                Delete
-              </button>
+            <div key={task.id} className="flex items-start mb-4">
+              <div className="border-b border-gray-300 mb-4 pb-4 w-1/2">
+                <p className="text-lg font-medium">{task.title}</p>
+                <p className="text-sm text-gray-500 mb-2">{task.description}</p>
+                <p className="text-xs text-gray-400 mb-2">{task.datetime}</p>
+                <button
+                  onClick={() => deleteTask(task.id)}
+                  className="text-red-500 text-xs focus:outline-none"
+                >
+                  <FontAwesomeIcon icon={faTrash} className="mr-1" size="lg" />
+                </button>
+                <button
+                  onClick={() => startEditingTask(task)}
+                  className="edit-button text-gray-500 text-xs ml-2"
+                >
+                  <FontAwesomeIcon icon={faEdit} className="mr-1" size="lg" />
+                </button>
+              </div>
+              {editingTask && editingTask.id === task.id && (
+                <div className="w-1/2 pl-4">
+                  <form onSubmit={handleUpdateTask} className="space-y-4">
+                    <div className="flex flex-col">
+                      <label htmlFor={`editTitle-${task.id}`} className="text-sm font-medium text-gray-600">Título:</label>
+                      <input
+                        type="text"
+                        id={`editTitle-${task.id}`}
+                        value={editingTask.title}
+                        onChange={(e) => setEditingTask({ ...editingTask, title: e.target.value })}
+                        className="w-full bg-white rounded border border-gray-300 focus:border-green-800 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor={`editDescription-${task.id}`} className="text-sm font-medium text-gray-600">Descrição:</label>
+                      <input
+                        type="text"
+                        id={`editDescription-${task.id}`}
+                        value={editingTask.description}
+                        onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })}
+                        className="w-full bg-white rounded border border-gray-300 focus:border-green-800 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor={`editDatetime-${task.id}`} className="text-sm font-medium text-gray-600">Data:</label>
+                      <input
+                        type="datetime-local"
+                        id={`editDatetime-${task.id}`}
+                        value={editingTask.datetime}
+                        onChange={(e) => setEditingTask({ ...editingTask, datetime: e.target.value })}
+                        className="w-full bg-white rounded border border-gray-300 focus:border-green-800 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor={`editDuration-${task.id}`} className="text-sm font-medium text-gray-600">Duração:</label>
+                      <input
+                        type="text"
+                        id={`editDuration-${task.id}`}
+                        value={editingTask.duration}
+                        onChange={(e) => setEditingTask({ ...editingTask, duration: e.target.value })}
+                        className="w-full bg-white rounded border border-gray-300 focus:border-green-800 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                      />
+                    </div>
+                    <button type="submit" className="text-white bg-green-800 border-0 py-2 px-8 focus:outline-none w-fit hover:bg-green-600 rounded text-lg">Atualizar Tarefa</button>
+                  </form>
+                </div>
+              )}
             </div>
           ))}
         </div>
