@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gerenciador de Tarefas
 
-## Getting Started
+## Descrição
 
-First, run the development server:
+Este projeto é um gerenciador de tarefas simples, permitindo que os usuários adicionem, editem, deletem e filtrem tarefas por título. Ele foi desenvolvido com React e utiliza um hook personalizado para gerenciar a lista de tarefas.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tabela de Conteúdos
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Instalação](#instalação)
+- [Uso](#uso)
+- [Contribuição](#contribuição)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Instalação
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Para instalar e executar este projeto localmente, siga os passos abaixo:
 
-## Learn More
+1. Clone o repositório:
+bash git clone https://github.com/seu-usuario/gerenciador-de-tarefas.git
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Navegue até o diretório do projeto:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+bash cd gerenciador-de-tarefas
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Instale as dependências:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+bash npm install
+
+
+4. Inicie o servidor de desenvolvimento:
+
+bash npm start
+
+
+## Uso
+
+Após iniciar o servidor de desenvolvimento, acesse `http://localhost:3000` no seu navegador para ver o aplicativo em funcionamento.
+
+- **Adicionar uma tarefa**: Preencha o formulário na parte superior da página e clique em "Add Task".
+- **Editar uma tarefa**: Clique no ícone de edição ao lado da tarefa que deseja editar. Preencha o formulário de edição e clique em "Atualizar Tarefa".
+- **Deletar uma tarefa**: Clique no ícone de lixeira ao lado da tarefa que deseja deletar.
+- **Filtrar tarefas por título**: Digite o título da tarefa no campo de filtro e pressione "Filtrar".
+
+## Contribuição
+
+Contribuições são bem-vindas! Para contribuir, por favor, siga os passos abaixo:
+
+1. Faça um fork do projeto.
+2. Crie uma nova branch para suas alterações: `git checkout -b my-feature`.
+3. Salve suas alterações e crie uma mensagem de commit contando o que você fez: `git commit -m "feature: My new feature"`.
+4. Envie suas alterações: `git push origin my-feature`.
