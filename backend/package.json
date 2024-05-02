@@ -11,10 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "fastify": "^4.26.2",
-    "node": "^22.0.0"
+    "node": "^22.0.0",
+    "pg": "^8.11.5"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",
+    "@types/pg": "^8.11.5",
     "typescript": "^5.4.5"
   }
 }
