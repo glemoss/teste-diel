@@ -1,15 +1,14 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import db from '../db/db';
+import { FastifyInstance } from 'fastify';
+import TaskController from '../controllers/task.controller';
 
-export default async function tasksRoutes(fastify: FastifyInstance) {
-    fastify.get('/tasks', async (request: FastifyRequest, reply: FastifyReply) => {
-        try {
-            const { rows } = await db.query('SELECT * FROM tasks');
+export default async function taskRoutes(fastify: FastifyInstance) {
+    fastify.post('/tasks', TaskController.createTask);
 
-            return rows;
-        } catch (error) {
-            console.error('Erro ao buscar tarefas:', error);
-            reply.status(500).send('Erro ao buscar tarefas');
-        }
-    });
+    fastify.put('/tasks/:id', TaskController.updateTask);
+
+    fastify.delete('/tasks/:id', TaskController.deleteTask);
+
+    fastify.get('/tasks', TaskController.getTasks);
+
+    fastify.get('/tasks/:title', TaskController.getTaskByTitle)
 }

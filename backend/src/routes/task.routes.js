@@ -3,17 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const db_1 = __importDefault(require("../db/db"));
-async function tasksRoutes(fastify) {
-    fastify.get('/tasks', async (request, reply) => {
-        try {
-            const { rows } = await db_1.default.query('SELECT * FROM tasks');
-            return rows;
-        }
-        catch (error) {
-            console.error('Erro ao buscar tarefas:', error);
-            reply.status(500).send('Erro ao buscar tarefas');
-        }
-    });
+const task_controller_1 = __importDefault(require("../controllers/task.controller"));
+async function taskRoutes(fastify) {
+    fastify.post('/tasks', task_controller_1.default.createTask);
+    fastify.put('/tasks/:id', task_controller_1.default.updateTask);
+    fastify.delete('/tasks/:id', task_controller_1.default.deleteTask);
+    fastify.get('/tasks', task_controller_1.default.getTasks);
+    fastify.get('/tasks/:title', task_controller_1.default.getTaskByTitle);
 }
-exports.default = tasksRoutes;
+exports.default = taskRoutes;
