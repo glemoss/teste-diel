@@ -7,7 +7,11 @@ app.register(tasksRoutes);
 
 const start = async () => {
     try {
-        await app.listen(3000);
+        await app.listen(
+            {
+                port: 3000,
+            }
+        );
         app.log.info('Servidor iniciado');
     } catch (err) {
         app.log.error(err);
