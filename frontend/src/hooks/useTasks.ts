@@ -78,12 +78,26 @@ export const useTaskList = () => {
         }
     };
 
+    const filterTasksByName = async (title: string) => {
+        try {
+            const response = await fetch(`${SERVER_URL}/tasks?title=${title}`);
+            if (!response.ok) {
+                setTasks([]);
+            }
+            const data: Task[] = await response.json();
+            setTasks(data);
+        } catch (error) {
+            console.error('Erro ao filtrar tarefas:', error);
+        }
+    };
+
     return {
         tasks,
         isLoading,
         addTask,
         updateTask,
         deleteTask,
+        filterTasksByName,
     };
 };
 

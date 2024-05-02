@@ -4,10 +4,10 @@ import { useTaskList } from "../hooks";
 import { Task } from "../@types";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home() {
-  const { tasks, addTask, deleteTask, updateTask } = useTaskList();
+  const { tasks, addTask, deleteTask, updateTask, filterTasksByName } = useTaskList();
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   const [task, setTask] = useState<Omit<Task, "id">>({
@@ -16,6 +16,17 @@ export default function Home() {
     datetime: "",
     duration: "",
   });
+
+  const [filter, setFilter] = useState("");
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value);
+  };
+
+  const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    filterTasksByName(filter);
+  };
 
   const [errors, setErrors] = useState<
     Record<keyof Omit<Task, "id" | "completed">, string>
@@ -77,10 +88,10 @@ export default function Home() {
   };
 
   const handleUpdateTask = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Previne o comportamento padrão do formulário
+    event.preventDefault();
     if (editingTask) {
       updateTask(editingTask);
-      setEditingTask(null); // Limpa o estado de edição após a atualização
+      setEditingTask(null);
     }
   };
 
@@ -90,14 +101,14 @@ export default function Home() {
         <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
           <div className="rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 bg-slate-100">
             <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
-              Create new task
+              Criar nova tarefa
             </h2>
             <div className="relative mb-4">
               <label
                 htmlFor="title"
                 className="leading-7 text-sm text-gray-600"
               >
-                Title
+                Título
               </label>
               <input
                 onChange={onChange}
@@ -114,7 +125,7 @@ export default function Home() {
             </div>
             <div className="relative mb-4">
               <label htmlFor="desc" className="leading-7 text-sm text-gray-600">
-                Description
+                Descrição
               </label>
               <input
                 onChange={onChange}
@@ -156,14 +167,15 @@ export default function Home() {
                 htmlFor="duration"
                 className="leading-7 text-sm text-gray-600"
               >
-                Duration
+                Duração
               </label>
               <input
                 onChange={onChange}
                 value={task.duration}
-                type="text"
+                type="number"
                 id="duration"
                 name="duration"
+                placeholder="30 minutos"
                 className="w-full bg-white rounded border border-gray-300 focus:border-green-800 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 autoComplete="off"
               />
@@ -179,6 +191,19 @@ export default function Home() {
             </button>
           </div>
         </div>
+        <form onSubmit={handleFilterSubmit} className="flex items-center">
+          <input
+            type="text"
+            placeholder="Buscar por título"
+            value={filter}
+            onChange={handleFilterChange}
+            className="w-full bg-white rounded border border-gray-300 focus:border-green-800 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+          <button type="submit" className="ml-2 bg-green-800 text-white px-4 py-2 rounded h-12 flex items-center">
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </form>
+
         <div className="rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 bg-slate-100">
           <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
             Tasks
