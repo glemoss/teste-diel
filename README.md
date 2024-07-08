@@ -49,4 +49,4 @@ Contribuições são bem-vindas. Por favor, siga estas etapas:
 2. Crie uma nova branch com as suas alterações: `git checkout -b my-feature`.
 3. Faça commit das suas alterações: `git commit -am 'Add some feature'`.
 4. Faça push para a branch: `git push origin my-feature`.
-5. Crie um novo Pull Request.
+5. Crie um novo Pull Request.1
